@@ -8,3 +8,6 @@ wheels/
 
 # Virtual environments
 .venv
+
+analysis.json
+test_git.py
