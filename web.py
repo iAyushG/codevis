@@ -45,6 +45,7 @@ def run_analysis(job_id: str, repo_path: str):
                     "total_files_tracked_by_git": git_data["summary"]["total_files_tracked"],
                     "hottest_file": git_data["summary"]["hottest_file"],
                     "coupled_pairs": git_data["summary"]["coupled_pairs"],
+                    "languages": dep_data["summary"].get("languages", []),
                 },
                 "nodes": dep_data["nodes"],
                 "edges": dep_data["edges"],
@@ -95,42 +96,45 @@ def get_impact(repo_path: str, file: str):
     """What breaks if this file changes?"""
     import networkx as nx
     dep_data = analyze_repo(repo_path)
-    
+
     G = nx.DiGraph()
     for edge in dep_data["edges"]:
         G.add_edge(edge["source"], edge["target"])
-    
-    # Find the node that matches the file label
+
+    # Try to find node by label or id
     target_node = None
+    file_normalized = file.replace('/', os.sep).replace('\\', os.sep)
     for node in dep_data["nodes"]:
-        if file in node["label"] or file in node["id"]:
+        label_normalized = node["label"].replace('/', os.sep).replace('\\', os.sep)
+        if label_normalized == file_normalized or node["id"].endswith(file_normalized):
             target_node = node["id"]
             break
-    
+
     if not target_node:
         return {"error": f"File '{file}' not found in repo"}
-    
-    # Everything that depends ON this file (upstream)
+
+    # Handle nodes not in graph (no edges)
+    if target_node not in G:
+        return {
+            "file": file,
+            "if_you_change_this": {"files_that_import_it": [], "count": 0},
+            "this_file_depends_on": {"files_it_imports": [], "count": 0}
+        }
+
     ancestors = list(nx.ancestors(G, target_node))
-    # Everything this file depends on (downstream)  
     descendants = list(nx.descendants(G, target_node))
-    
+
     return {
         "file": file,
         "if_you_change_this": {
-            "files_that_import_it": [
-                n for n in ancestors
-            ],
+            "files_that_import_it": ancestors,
             "count": len(ancestors)
         },
         "this_file_depends_on": {
-            "files_it_imports": [
-                n for n in descendants
-            ],
+            "files_it_imports": descendants,
             "count": len(descendants)
         }
     }
-
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=False)

@@ -25,12 +25,7 @@
       border-bottom: 1px solid #2a2a28;
       flex-shrink: 0;
     }
-    header h1 {
-      font-size: 16px;
-      font-weight: 600;
-      color: #f0ede6;
-      letter-spacing: -0.02em;
-    }
+    header h1 { font-size: 16px; font-weight: 600; color: #f0ede6; letter-spacing: -0.02em; }
     header span { color: #1D9E75; }
     .path-input {
       flex: 1;
@@ -56,17 +51,9 @@
     }
     .btn:hover { opacity: .85; }
     .btn-primary { background: #1D9E75; color: #fff; }
-    .btn-secondary {
-      background: #1a1a18;
-      border: 1px solid #2a2a28;
-      color: #c2c0b6;
-    }
+    .btn-secondary { background: #1a1a18; border: 1px solid #2a2a28; color: #c2c0b6; }
 
-    .main {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
+    .main { display: flex; flex: 1; overflow: hidden; }
 
     .sidebar {
       width: 280px;
@@ -76,199 +63,82 @@
       flex-shrink: 0;
       overflow-y: auto;
     }
-    .sidebar-section {
-      padding: 14px 16px;
-      border-bottom: 1px solid #1e1e1c;
-    }
-    .sidebar-label {
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: #555550;
-      margin-bottom: 10px;
-    }
-    .stat-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
+    .sidebar-section { padding: 14px 16px; border-bottom: 1px solid #1e1e1c; }
+    .sidebar-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: #555550; margin-bottom: 10px; }
+    .stat-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
     .stat-key { font-size: 12px; color: #888780; }
     .stat-val { font-size: 12px; color: #f0ede6; font-weight: 500; }
 
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 7px;
-      font-size: 12px;
-      color: #888780;
-    }
-    .legend-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; font-size: 12px; color: #888780; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .legend-sub { font-size: 11px; font-weight: 500; color: #555550; margin-bottom: 6px; margin-top: 10px; text-transform: uppercase; letter-spacing: .05em; }
 
-    .hotspot-item {
-      padding: 7px 0;
-      border-bottom: 1px solid #1a1a18;
-      cursor: pointer;
-    }
-    .hotspot-item:hover .hotspot-name { color: #1D9E75; }
-    .hotspot-name {
-      font-size: 12px;
-      color: #c2c0b6;
-      font-family: monospace;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 3px;
-    }
-    .hotspot-bar-wrap {
-      height: 3px;
-      background: #1e1e1c;
-      border-radius: 2px;
-    }
-    .hotspot-bar {
-      height: 3px;
-      border-radius: 2px;
-    }
-
-    .graph-area {
-      flex: 1;
-      position: relative;
-      overflow: hidden;
-    }
-    svg#graph {
+    .search-input {
       width: 100%;
-      height: 100%;
-    }
-
-    .overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      background: #0d0d0b;
-    }
-    .overlay-title {
-      font-size: 18px;
-      font-weight: 500;
+      background: #1a1a18;
+      border: 1px solid #2a2a28;
+      border-radius: 8px;
+      padding: 7px 14px;
       color: #f0ede6;
+      font-size: 12px;
+      font-family: 'Cascadia Code', 'Fira Code', monospace;
+      outline: none;
+      transition: border-color .15s;
     }
-    .overlay-sub {
-      font-size: 13px;
-      color: #555550;
-      text-align: center;
-      max-width: 340px;
-      line-height: 1.6;
-    }
-    .spinner {
-      width: 28px; height: 28px;
-      border: 2px solid #2a2a28;
-      border-top-color: #1D9E75;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-    }
+    .search-input:focus { border-color: #1D9E75; }
+    .search-results { margin-top: 8px; display: none; }
+    .search-count { font-size: 11px; color: #555550; margin-bottom: 4px; }
+    .search-result-item { padding: 5px 8px; border-radius: 6px; font-size: 11px; font-family: monospace; color: #c2c0b6; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .search-result-item:hover { background: #1e1e1c; color: #1D9E75; }
+
+    .hotspot-item { padding: 7px 0; border-bottom: 1px solid #1a1a18; cursor: pointer; }
+    .hotspot-item:hover .hotspot-name { color: #1D9E75; }
+    .hotspot-name { font-size: 12px; color: #c2c0b6; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
+    .hotspot-bar-wrap { height: 3px; background: #1e1e1c; border-radius: 2px; }
+    .hotspot-bar { height: 3px; border-radius: 2px; }
+
+    .graph-area { flex: 1; position: relative; overflow: hidden; }
+    svg#graph { width: 100%; height: 100%; }
+
+    .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: #0d0d0b; }
+    .overlay-title { font-size: 18px; font-weight: 500; color: #f0ede6; }
+    .overlay-sub { font-size: 13px; color: #555550; text-align: center; max-width: 340px; line-height: 1.6; }
+    .spinner { width: 28px; height: 28px; border: 2px solid #2a2a28; border-top-color: #1D9E75; border-radius: 50%; animation: spin .7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .step-text { font-size: 12px; color: #1D9E75; }
 
     #tooltip {
-      position: absolute;
-      pointer-events: none;
-      background: #1a1a18;
-      border: 1px solid #2a2a28;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 12px;
-      color: #c2c0b6;
-      display: none;
-      z-index: 100;
-      max-width: 220px;
-      line-height: 1.6;
+        position: absolute;
+        pointer-events: none;
+        background: #1a1a18;
+        border: 1px solid #2a2a28;
+        -radius: 10px;
+        padding: 10px 14px;
+        font-size: 12px;
+        color: #c2c0b6;
+        display: none;
+        z-index: 100;
+        max-width: 240px;
+        line-height: 1.6;
+        bottom: 60px;
+        left: 16px;
     }
-    #tooltip .tt-name {
-      font-weight: 500;
-      color: #f0ede6;
-      margin-bottom: 4px;
-      font-family: monospace;
-      font-size: 11px;
-      word-break: break-all;
-    }
+    #tooltip .tt-name { font-weight: 500; color: #f0ede6; margin-bottom: 4px; font-family: monospace; font-size: 11px; word-break: break-all; }
     #tooltip .tt-risk-high { color: #e05c5c; }
     #tooltip .tt-risk-med  { color: #e09a3a; }
     #tooltip .tt-risk-low  { color: #1D9E75; }
+    #tooltip .tt-lang { font-size: 10px; padding: 1px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
 
-    .graph-controls {
-      position: absolute;
-      bottom: 16px;
-      right: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .ctrl-btn {
-      width: 32px; height: 32px;
-      background: #1a1a18;
-      border: 1px solid #2a2a28;
-      border-radius: 8px;
-      color: #c2c0b6;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color .15s;
-    }
+    .graph-controls { position: absolute; bottom: 16px; right: 16px; display: flex; flex-direction: column; gap: 6px; }
+    .ctrl-btn { width: 32px; height: 32px; background: #1a1a18; border: 1px solid #2a2a28; border-radius: 8px; color: #c2c0b6; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .15s; }
     .ctrl-btn:hover { border-color: #1D9E75; color: #1D9E75; }
 
-    .impact-panel {
-      position: absolute;
-      top: 16px; right: 16px;
-      width: 260px;
-      background: #1a1a18;
-      border: 1px solid #2a2a28;
-      border-radius: 12px;
-      padding: 14px;
-      display: none;
-      z-index: 50;
-    }
-    .impact-title {
-      font-size: 12px;
-      font-weight: 500;
-      color: #f0ede6;
-      margin-bottom: 10px;
-    }
+    .impact-panel { position: absolute; top: 16px; right: 16px; width: 260px; background: #1a1a18; border: 1px solid #2a2a28; border-radius: 12px; padding: 14px; display: none; z-index: 50; }
+    .impact-title { font-size: 12px; font-weight: 500; color: #f0ede6; margin-bottom: 10px; }
     .impact-section { margin-bottom: 10px; }
-    .impact-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      color: #555550;
-      margin-bottom: 5px;
-    }
-    .impact-file {
-      font-size: 11px;
-      font-family: monospace;
-      color: #c2c0b6;
-      padding: 2px 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .impact-close {
-      position: absolute;
-      top: 10px; right: 12px;
-      background: none;
-      border: none;
-      color: #555550;
-      cursor: pointer;
-      font-size: 16px;
-    }
+    .impact-label { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: #555550; margin-bottom: 5px; }
+    .impact-file { font-size: 11px; font-family: monospace; color: #c2c0b6; padding: 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .impact-close { position: absolute; top: 10px; right: 12px; background: none; border: none; color: #555550; cursor: pointer; font-size: 16px; }
     .impact-close:hover { color: #c2c0b6; }
   </style>
 </head>
@@ -276,49 +146,52 @@
 
 <header>
   <h1>code<span>vis</span></h1>
-  <input
-    class="path-input"
-    id="repoPath"
-    type="text"
-    placeholder="Enter repo path -- e.g. C:\testprojects\requests"
-  />
+  <input class="path-input" id="repoPath" type="text"
+    placeholder="Enter repo path -- e.g. C:\testprojects\requests" />
   <button class="btn btn-primary" onclick="startAnalysis()">Analyze</button>
   <button class="btn btn-secondary" onclick="fitView()">Fit view</button>
 </header>
 
 <div class="main">
   <div class="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Search</div>
+      <input class="search-input" id="searchInput" type="text"
+        placeholder="Find a file..." oninput="onSearch(this.value)" />
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
     <div class="sidebar-section">
       <div class="sidebar-label">Summary</div>
       <div id="summary-content">
         <div style="font-size:12px;color:#555550">Run an analysis to see results</div>
       </div>
     </div>
+
     <div class="sidebar-section">
       <div class="sidebar-label">Legend</div>
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#e05c5c"></div>
-        High risk (score &gt;= 0.5)
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#e09a3a"></div>
-        Medium risk (0.1 - 0.49)
-      </div>
-      <div class="legend-item">
-        <div class="legend-dot" style="background:#1D9E75"></div>
-        Low risk (score &lt; 0.1)
-      </div>
+      <div class="legend-sub">Risk</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#e05c5c"></div>High risk (&gt;= 0.5)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#e09a3a"></div>Medium risk (0.1 - 0.49)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Low risk (&lt; 0.1)</div>
+      <div class="legend-sub">Language</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1D9E75;opacity:.8"></div>Python</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f0d060;opacity:.8"></div>JavaScript</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#5b9bd5;opacity:.8"></div>TypeScript</div>
       <div class="legend-item" style="margin-top:8px">
         <div style="width:10px;height:10px;border-radius:50%;border:1.5px solid #888;flex-shrink:0"></div>
         Node size = churn
       </div>
     </div>
+
     <div class="sidebar-section" style="flex:1">
       <div class="sidebar-label">Top hotspots</div>
       <div id="hotspot-list">
         <div style="font-size:12px;color:#555550">No data yet</div>
       </div>
     </div>
+
   </div>
 
   <div class="graph-area" id="graphArea">
@@ -326,7 +199,7 @@
       <div class="overlay-title">codevis</div>
       <div class="overlay-sub">
         Enter a path to any git repository above and click Analyze.<br/>
-        Get a dependency graph colored by risk in seconds.
+        Supports Python, JavaScript, and TypeScript.
       </div>
     </div>
 
@@ -356,16 +229,37 @@ var gRef = null;
 var svgRef = null;
 var WRef = 0;
 var HRef = 0;
+var nodeSelection = null;
+var linkSelection = null;
 
+function langColor(lang) {
+  if (lang === 'python')     return '#1D9E75';
+  if (lang === 'javascript') return '#f0d060';
+  if (lang === 'typescript') return '#5b9bd5';
+  return '#888780';
+}
+function langBg(lang) {
+  if (lang === 'python')     return 'rgba(29,158,117,0.12)';
+  if (lang === 'javascript') return 'rgba(240,208,96,0.12)';
+  if (lang === 'typescript') return 'rgba(91,155,213,0.12)';
+  return 'rgba(136,135,128,0.12)';
+}
+function langLabel(lang) {
+  if (lang === 'python')     return 'Python';
+  if (lang === 'javascript') return 'JavaScript';
+  if (lang === 'typescript') return 'TypeScript';
+  return lang || 'unknown';
+}
+function langBadgeBg(lang) {
+  if (lang === 'python')     return 'rgba(29,158,117,0.2)';
+  if (lang === 'javascript') return 'rgba(240,208,96,0.2)';
+  if (lang === 'typescript') return 'rgba(91,155,213,0.2)';
+  return 'rgba(136,135,128,0.2)';
+}
 function riskColor(r) {
   if (r >= 0.5) return '#e05c5c';
   if (r >= 0.1) return '#e09a3a';
   return '#1D9E75';
-}
-function riskBg(r) {
-  if (r >= 0.5) return 'rgba(224,92,92,0.15)';
-  if (r >= 0.1) return 'rgba(224,154,58,0.15)';
-  return 'rgba(29,158,117,0.15)';
 }
 function riskClass(r) {
   if (r >= 0.5) return 'tt-risk-high';
@@ -441,6 +335,108 @@ function fitView() {
   );
 }
 
+function onSearch(query) {
+  var resultsEl = document.getElementById('searchResults');
+  if (!currentData || !query.trim()) {
+    resultsEl.style.display = 'none';
+    resetHighlight();
+    return;
+  }
+  var q = query.toLowerCase();
+  var matches = currentData.nodes.filter(function(n) {
+    return n.label.toLowerCase().includes(q);
+  });
+  resultsEl.style.display = 'block';
+  if (matches.length === 0) {
+    resultsEl.innerHTML = '<div class="search-count">No matches</div>';
+    resetHighlight();
+    return;
+  }
+  resultsEl.innerHTML =
+    '<div class="search-count">' + matches.length + ' match' + (matches.length === 1 ? '' : 'es') + '</div>' +
+    matches.slice(0, 8).map(function(n) {
+      return '<div class="search-result-item" onclick="jumpToNode(\'' +
+        n.id.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + '\')">' +
+        n.label + '</div>';
+    }).join('');
+  if (nodeSelection) {
+    nodeSelection.select('circle').attr('opacity', function(d) {
+      return d.label.toLowerCase().includes(q) ? 1 : 0.08;
+    });
+    linkSelection.attr('opacity', 0.03);
+  }
+}
+
+function jumpToNode(nodeId) {
+  if (!svgRef || !zoomBehavior) return;
+  var found = null;
+  if (nodeSelection) {
+    nodeSelection.each(function(d) {
+      if (d.id === nodeId) found = d;
+    });
+  }
+  if (!found || found.x === undefined) return;
+  var scale = 2;
+  var tx = WRef / 2 - scale * found.x;
+  var ty = HRef / 2 - scale * found.y;
+  svgRef.transition().duration(500).call(
+    zoomBehavior.transform,
+    d3.zoomIdentity.translate(tx, ty).scale(scale)
+  );
+  if (nodeSelection) {
+    nodeSelection.select('circle').attr('opacity', function(d) {
+      return d.id === nodeId ? 1 : 0.08;
+    });
+    if (linkSelection) {
+      linkSelection.attr('opacity', function(d) {
+        return (d.source.id === nodeId || d.target.id === nodeId) ? 0.8 : 0.03;
+      });
+    }
+  }
+}
+
+function resetHighlight() {
+  if (nodeSelection) {
+    nodeSelection.select('circle')
+      .attr('opacity', 1)
+      .attr('stroke-width', 1.5)
+      .attr('stroke', function(d) { return riskColor(d.risk_score || 0); });
+  }
+  if (linkSelection) linkSelection.attr('opacity', 0.5);
+}
+
+function highlightNeighbors(d, edges) {
+  var connected = new Set([d.id]);
+  edges.forEach(function(e) {
+    var sid = e.source.id || e.source;
+    var tid = e.target.id || e.target;
+    if (sid === d.id) connected.add(tid);
+    if (tid === d.id) connected.add(sid);
+  });
+  nodeSelection.select('circle')
+    .attr('opacity', function(n) { return connected.has(n.id) ? 1 : 0.08; })
+    .attr('stroke-width', function(n) { return n.id === d.id ? 3 : 1.5; })
+    .attr('stroke', function(n) {
+      if (n.id === d.id) return '#ffffff';
+      return riskColor(n.risk_score || 0);
+    });
+  linkSelection.attr('opacity', function(e) {
+    var sid = e.source.id || e.source;
+    var tid = e.target.id || e.target;
+    return (sid === d.id || tid === d.id) ? 0.9 : 0.03;
+  });
+}
+
+function unhighlightAll() {
+  if (nodeSelection) {
+    nodeSelection.select('circle')
+      .attr('opacity', 1)
+      .attr('stroke-width', 1.5)
+      .attr('stroke', function(d) { return riskColor(d.risk_score || 0); });
+  }
+  if (linkSelection) linkSelection.attr('opacity', 0.5);
+}
+
 function renderGraph(data) {
   currentData = data;
   hideOverlay();
@@ -449,8 +445,7 @@ function renderGraph(data) {
   var area = document.getElementById('graphArea');
   var W = area.clientWidth;
   var H = area.clientHeight;
-  WRef = W;
-  HRef = H;
+  WRef = W; HRef = H;
 
   var svg = d3.select('#graph');
   svg.selectAll('*').remove();
@@ -458,7 +453,9 @@ function renderGraph(data) {
 
   if (simulation) simulation.stop();
 
-  var maxChanges = Math.max.apply(null, data.nodes.map(function(n) { return n.changes || 0; }).concat([1]));
+  var maxChanges = Math.max.apply(null,
+    data.nodes.map(function(n) { return n.changes || 0; }).concat([1])
+  );
   function rScale(d) {
     return Math.max(minR, minR + ((d.changes || 0) / maxChanges) * (maxR - minR));
   }
@@ -476,12 +473,9 @@ function renderGraph(data) {
     .attr('refX', 20).attr('refY', 5)
     .attr('markerWidth', 5).attr('markerHeight', 5)
     .attr('orient', 'auto-start-reverse')
-    .append('path')
-    .attr('d', 'M2 1L8 5L2 9')
-    .attr('fill', 'none')
-    .attr('stroke', '#444')
-    .attr('stroke-width', 1.5)
-    .attr('stroke-linecap', 'round');
+    .append('path').attr('d', 'M2 1L8 5L2 9')
+    .attr('fill', 'none').attr('stroke', '#555')
+    .attr('stroke-width', 1.5).attr('stroke-linecap', 'round');
 
   var g = svg.append('g');
   gRef = g;
@@ -491,11 +485,20 @@ function renderGraph(data) {
     .on('zoom', function(ev) { g.attr('transform', ev.transform); });
   svg.call(zoomBehavior);
 
+  svg.on('click', function(ev) {
+    if (ev.target.tagName === 'svg' || ev.target === g.node()) {
+      unhighlightAll();
+      closeImpact();
+    }
+  });
+
   var link = g.append('g').selectAll('line')
     .data(edges).join('line')
-    .attr('stroke', '#2a2a28')
+    .attr('stroke', '#4a4a46')
     .attr('stroke-width', 1)
+    .attr('opacity', 0.5)
     .attr('marker-end', 'url(#arrow)');
+  linkSelection = link;
 
   var nodes = data.nodes.map(function(d) { return Object.assign({}, d); });
 
@@ -513,42 +516,54 @@ function renderGraph(data) {
         d.fx = null; d.fy = null;
       })
     );
+  nodeSelection = node;
 
   node.append('circle')
     .attr('r', function(d) { return rScale(d); })
-    .attr('fill', function(d) { return riskBg(d.risk_score || 0); })
+    .attr('fill', function(d) { return langBg(d.language); })
     .attr('stroke', function(d) { return riskColor(d.risk_score || 0); })
     .attr('stroke-width', 1.5);
 
+  node.append('circle')
+    .attr('r', function(d) { return Math.max(2, rScale(d) * 0.35); })
+    .attr('fill', function(d) { return langColor(d.language); })
+    .attr('opacity', 0.75)
+    .attr('pointer-events', 'none');
+
   node.append('text')
     .text(function(d) {
-      var name = d.label.split(/[/\\]/).pop().replace('.py', '');
+      var name = d.label.split(/[/\\]/).pop().replace(/\.(py|js|ts|jsx|tsx)$/, '');
       return name.length > 10 ? name.slice(0, 9) + '..' : name;
     })
     .attr('text-anchor', 'middle')
-    .attr('dominant-baseline', 'central')
-    .attr('font-size', function(d) { return rScale(d) < 12 ? '8px' : '9px'; })
-    .attr('fill', function(d) { return riskColor(d.risk_score || 0); })
-    .attr('font-weight', '500')
+    .attr('dy', function(d) { return rScale(d) + 11; })
+    .attr('font-size', '9px')
+    .attr('fill', '#666660')
     .attr('pointer-events', 'none');
 
   var tip = document.getElementById('tooltip');
+
   node
+    .on('mouseover', function(ev, d) { highlightNeighbors(d, edges); })
     .on('mousemove', function(ev, d) {
       var rect = area.getBoundingClientRect();
       var inE = edges.filter(function(e) { return (e.target.id || e.target) === d.id; }).length;
       var outE = edges.filter(function(e) { return (e.source.id || e.source) === d.id; }).length;
       tip.style.display = 'block';
-      tip.style.left = (ev.clientX - rect.left + 14) + 'px';
-      tip.style.top = (ev.clientY - rect.top - 10) + 'px';
       tip.innerHTML =
         '<div class="tt-name">' + d.label + '</div>' +
-        '<div class="' + riskClass(d.risk_score || 0) + '">' + riskLabel(d.risk_score || 0) + ' -- ' + (d.risk_score || 0).toFixed(2) + '</div>' +
+        '<div class="' + riskClass(d.risk_score || 0) + '">' +
+          riskLabel(d.risk_score || 0) + ' -- ' + (d.risk_score || 0).toFixed(2) +
+        '</div>' +
         '<div>' + (d.changes || 0) + ' git changes</div>' +
-        '<div style="color:#555550;font-size:11px;margin-top:4px">' + outE + ' imports -&gt; ' + inE + ' imported by</div>';
+        '<div style="color:#555550;font-size:11px;margin-top:4px">' +
+          outE + ' imports -&gt; ' + inE + ' imported by' +
+        '</div>' +
+        '<div class="tt-lang" style="background:' + langBadgeBg(d.language) +
+          ';color:' + langColor(d.language) + '">' + langLabel(d.language) + '</div>';
     })
-    .on('mouseleave', function() { tip.style.display = 'none'; })
-    .on('click', function(ev, d) { showImpact(d); });
+    .on('mouseleave', function() { tip.style.display = 'none'; unhighlightAll(); })
+    .on('click', function(ev, d) { ev.stopPropagation(); showImpact(d); });
 
   simulation = d3.forceSimulation(nodes)
     .force('link', d3.forceLink(edges).id(function(d) { return d.id; }).distance(60).strength(0.8))
@@ -563,33 +578,46 @@ function renderGraph(data) {
         .attr('y2', function(d) { return d.target.y; });
       node.attr('transform', function(d) { return 'translate(' + d.x + ',' + d.y + ')'; });
     })
-    .on('end', function() {
-      fitView();
-    });
+    .on('end', function() { fitView(); });
 }
 
 function updateSidebar(data) {
   var s = data.summary;
+  var langs = (s.languages || []).join(', ') || '--';
   document.getElementById('summary-content').innerHTML =
     '<div class="stat-row"><span class="stat-key">Files</span><span class="stat-val">' + s.total_files + '</span></div>' +
     '<div class="stat-row"><span class="stat-key">Dependencies</span><span class="stat-val">' + s.total_dependencies + '</span></div>' +
     '<div class="stat-row"><span class="stat-key">Git tracked</span><span class="stat-val">' + s.total_files_tracked_by_git + '</span></div>' +
+    '<div class="stat-row"><span class="stat-key">Languages</span><span class="stat-val">' + langs + '</span></div>' +
     '<div class="stat-row"><span class="stat-key">Hottest file</span><span class="stat-val" style="font-family:monospace;font-size:11px;text-align:right;max-width:140px;overflow:hidden;text-overflow:ellipsis">' + (s.hottest_file || '--') + '</span></div>' +
     '<div class="stat-row"><span class="stat-key">Coupled pairs</span><span class="stat-val">' + s.coupled_pairs + '</span></div>';
 
+  // Only show hotspots for files actually in the graph
+  var graphFileLabels = new Set(data.nodes.map(function(n) {
+    return n.label.replace(/\\/g, '/');
+  }));
   var top = Object.entries(data.churn)
+    .filter(function(entry) {
+      return graphFileLabels.has(entry[0].replace(/\\/g, '/'));
+    })
     .sort(function(a, b) { return b[1].changes - a[1].changes; })
     .slice(0, 15);
 
-  var maxC = top.length > 0 ? top[0][1].changes : 1;
+  if (top.length === 0) {
+    document.getElementById('hotspot-list').innerHTML =
+      '<div style="font-size:12px;color:#555550">No git data for graph files</div>';
+    return;
+  }
+
+  var maxC = top[0][1].changes;
   document.getElementById('hotspot-list').innerHTML = top.map(function(entry) {
-    var f = entry[0];
-    var v = entry[1];
-    return '<div class="hotspot-item">' +
+    var f = entry[0], v = entry[1];
+    return '<div class="hotspot-item" onclick="jumpToNode(\'' +
+      f.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + '\')">' +
       '<div class="hotspot-name" title="' + f + '">' + f.split(/[/\\]/).pop() + '</div>' +
-      '<div class="hotspot-bar-wrap">' +
-      '<div class="hotspot-bar" style="width:' + (v.changes / maxC * 100).toFixed(1) + '%;background:' + riskColor(v.risk_score) + '"></div>' +
-      '</div></div>';
+      '<div class="hotspot-bar-wrap"><div class="hotspot-bar" style="width:' +
+        (v.changes / maxC * 100).toFixed(1) + '%;background:' + riskColor(v.risk_score) +
+      '"></div></div></div>';
   }).join('');
 }
 
@@ -599,13 +627,15 @@ async function showImpact(d) {
   var repoPath = document.getElementById('repoPath').value.trim();
   panel.style.display = 'block';
   document.getElementById('impactTitle').textContent = d.label.split(/[/\\]/).pop();
-  document.getElementById('impactContent').innerHTML = '<div style="font-size:12px;color:#555550">Loading impact...</div>';
-
+  document.getElementById('impactContent').innerHTML =
+    '<div style="font-size:12px;color:#555550">Loading impact...</div>';
   try {
-    var res = await fetch('/impact?repo_path=' + encodeURIComponent(repoPath) + '&file=' + encodeURIComponent(d.label));
+    var res = await fetch('/impact?repo_path=' + encodeURIComponent(repoPath) +
+      '&file=' + encodeURIComponent(d.label));
     var data = await res.json();
     if (data.error) {
-      document.getElementById('impactContent').innerHTML = '<div style="color:#e05c5c;font-size:12px">' + data.error + '</div>';
+      document.getElementById('impactContent').innerHTML =
+        '<div style="color:#e05c5c;font-size:12px">' + data.error + '</div>';
       return;
     }
     var upstream = data.if_you_change_this.files_that_import_it;
@@ -613,33 +643,29 @@ async function showImpact(d) {
     document.getElementById('impactContent').innerHTML =
       '<div class="impact-section">' +
       '<div class="impact-label" style="color:#e05c5c">! ' + upstream.length + ' files break if you change this</div>' +
-      upstream.slice(0, 6).map(function(f) { return '<div class="impact-file">' + f.split(/[/\\]/).pop() + '</div>'; }).join('') +
+      upstream.slice(0, 6).map(function(f) {
+        return '<div class="impact-file">' + f.split(/[/\\]/).pop() + '</div>';
+      }).join('') +
       (upstream.length > 6 ? '<div style="font-size:11px;color:#555550">+' + (upstream.length - 6) + ' more</div>' : '') +
-      '</div>' +
-      '<div class="impact-section">' +
+      '</div><div class="impact-section">' +
       '<div class="impact-label" style="color:#1D9E75">this file depends on ' + downstream.length + ' files</div>' +
-      downstream.slice(0, 6).map(function(f) { return '<div class="impact-file">' + f.split(/[/\\]/).pop() + '</div>'; }).join('') +
+      downstream.slice(0, 6).map(function(f) {
+        return '<div class="impact-file">' + f.split(/[/\\]/).pop() + '</div>';
+      }).join('') +
       (downstream.length > 6 ? '<div style="font-size:11px;color:#555550">+' + (downstream.length - 6) + ' more</div>' : '') +
-      '</div>' +
-      '<div style="font-size:11px;color:#555550;margin-top:6px">' + (d.changes || 0) + ' git changes - risk ' + (d.risk_score || 0).toFixed(2) + '</div>';
+      '</div><div style="font-size:11px;color:#555550;margin-top:6px">' +
+        (d.changes || 0) + ' git changes - risk ' + (d.risk_score || 0).toFixed(2) +
+      '</div>';
   } catch(e) {
-    document.getElementById('impactContent').innerHTML = '<div style="color:#e05c5c;font-size:12px">Failed to load impact data</div>';
+    document.getElementById('impactContent').innerHTML =
+      '<div style="color:#e05c5c;font-size:12px">Failed to load impact data</div>';
   }
 }
 
-function closeImpact() {
-  document.getElementById('impactPanel').style.display = 'none';
-}
-
-function zoomIn() {
-  svgRef.transition().call(zoomBehavior.scaleBy, 1.4);
-}
-function zoomOut() {
-  svgRef.transition().call(zoomBehavior.scaleBy, 0.7);
-}
-function resetView() {
-  svgRef.transition().call(zoomBehavior.transform, d3.zoomIdentity);
-}
+function closeImpact() { document.getElementById('impactPanel').style.display = 'none'; }
+function zoomIn() { svgRef.transition().call(zoomBehavior.scaleBy, 1.4); }
+function zoomOut() { svgRef.transition().call(zoomBehavior.scaleBy, 0.7); }
+function resetView() { svgRef.transition().call(zoomBehavior.transform, d3.zoomIdentity); }
 </script>
 </body>
 </html>
