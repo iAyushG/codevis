@@ -3,6 +3,7 @@ import os
 import threading
 from pathlib import Path
 
+import networkx as nx
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -13,8 +14,29 @@ from codevis.parser import analyze_repo
 
 app = FastAPI(title="codevis")
 
-# Store job results in memory
 jobs = {}
+
+
+def compute_cycles(dep_data: dict) -> list:
+    """Find all circular dependencies, filter self-loops"""
+    G = nx.DiGraph()
+    for edge in dep_data["edges"]:
+        G.add_edge(edge["source"], edge["target"])
+
+    node_label = {n["id"]: n["label"] for n in dep_data["nodes"]}
+
+    raw_cycles = list(nx.simple_cycles(G))
+    cycles = []
+    for cycle in raw_cycles:
+        if len(cycle) > 1:
+            cycles.append({
+                "files": [node_label.get(n, n) for n in cycle],
+                "ids": cycle,
+                "length": len(cycle)
+            })
+
+    cycles.sort(key=lambda x: x["length"])
+    return cycles
 
 
 def run_analysis(job_id: str, repo_path: str):
@@ -26,9 +48,11 @@ def run_analysis(job_id: str, repo_path: str):
         jobs[job_id]["step"] = "dependency analysis"
 
         dep_data = analyze_repo(repo_path)
+        jobs[job_id]["step"] = "detecting cycles"
+
+        cycles = compute_cycles(dep_data)
         jobs[job_id]["step"] = "merging results"
 
-        # Merge churn into nodes
         for node in dep_data["nodes"]:
             label = node["label"].replace("\\", "/")
             churn_info = git_data["churn"].get(label, {})
@@ -46,11 +70,13 @@ def run_analysis(job_id: str, repo_path: str):
                     "hottest_file": git_data["summary"]["hottest_file"],
                     "coupled_pairs": git_data["summary"]["coupled_pairs"],
                     "languages": dep_data["summary"].get("languages", []),
+                    "total_cycles": len(cycles),
                 },
                 "nodes": dep_data["nodes"],
                 "edges": dep_data["edges"],
                 "churn": git_data["churn"],
                 "cochange": git_data["cochange"],
+                "cycles": cycles,
             }
         }
 
@@ -91,17 +117,26 @@ def get_status(job_id: str):
     return {"status": job["status"], "step": job.get("step", "")}
 
 
+@app.get("/cycles")
+def get_cycles(repo_path: str):
+    """Find all circular dependencies in the repo"""
+    dep_data = analyze_repo(repo_path)
+    cycles = compute_cycles(dep_data)
+    return {
+        "total_cycles": len(cycles),
+        "cycles": cycles[:20]
+    }
+
+
 @app.get("/impact")
 def get_impact(repo_path: str, file: str):
     """What breaks if this file changes?"""
-    import networkx as nx
     dep_data = analyze_repo(repo_path)
 
     G = nx.DiGraph()
     for edge in dep_data["edges"]:
         G.add_edge(edge["source"], edge["target"])
 
-    # Try to find node by label or id
     target_node = None
     file_normalized = file.replace('/', os.sep).replace('\\', os.sep)
     for node in dep_data["nodes"]:
@@ -113,7 +148,6 @@ def get_impact(repo_path: str, file: str):
     if not target_node:
         return {"error": f"File '{file}' not found in repo"}
 
-    # Handle nodes not in graph (no edges)
     if target_node not in G:
         return {
             "file": file,
@@ -135,6 +169,7 @@ def get_impact(repo_path: str, file: str):
             "count": len(descendants)
         }
     }
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=False)

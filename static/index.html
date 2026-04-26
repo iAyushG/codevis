@@ -7,132 +7,80 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0d0d0b;
-      color: #c2c0b6;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
+      background: #0d0d0b; color: #c2c0b6;
+      height: 100vh; display: flex; flex-direction: column;
     }
-
     header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 20px;
-      border-bottom: 1px solid #2a2a28;
-      flex-shrink: 0;
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 20px; border-bottom: 1px solid #2a2a28; flex-shrink: 0;
     }
     header h1 { font-size: 16px; font-weight: 600; color: #f0ede6; letter-spacing: -0.02em; }
     header span { color: #1D9E75; }
     .path-input {
-      flex: 1;
-      background: #1a1a18;
-      border: 1px solid #2a2a28;
-      border-radius: 8px;
-      padding: 7px 14px;
-      color: #f0ede6;
-      font-size: 13px;
-      font-family: 'Cascadia Code', 'Fira Code', monospace;
-      outline: none;
-      transition: border-color .15s;
+      flex: 1; background: #1a1a18; border: 1px solid #2a2a28;
+      border-radius: 8px; padding: 7px 14px; color: #f0ede6;
+      font-size: 13px; font-family: 'Cascadia Code', 'Fira Code', monospace;
+      outline: none; transition: border-color .15s;
     }
     .path-input:focus { border-color: #1D9E75; }
-    .btn {
-      padding: 7px 18px;
-      border-radius: 8px;
-      border: none;
-      font-size: 13px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: opacity .15s;
-    }
+    .btn { padding: 7px 18px; border-radius: 8px; border: none; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity .15s; }
     .btn:hover { opacity: .85; }
     .btn-primary { background: #1D9E75; color: #fff; }
     .btn-secondary { background: #1a1a18; border: 1px solid #2a2a28; color: #c2c0b6; }
-
     .main { display: flex; flex: 1; overflow: hidden; }
-
-    .sidebar {
-      width: 280px;
-      border-right: 1px solid #2a2a28;
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 0;
-      overflow-y: auto;
-    }
+    .sidebar { width: 280px; border-right: 1px solid #2a2a28; display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto; }
     .sidebar-section { padding: 14px 16px; border-bottom: 1px solid #1e1e1c; }
     .sidebar-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: #555550; margin-bottom: 10px; }
     .stat-row { display: flex; justify-content: space-between; margin-bottom: 6px; }
     .stat-key { font-size: 12px; color: #888780; }
     .stat-val { font-size: 12px; color: #f0ede6; font-weight: 500; }
-
     .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; font-size: 12px; color: #888780; }
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
     .legend-sub { font-size: 11px; font-weight: 500; color: #555550; margin-bottom: 6px; margin-top: 10px; text-transform: uppercase; letter-spacing: .05em; }
-
     .search-input {
-      width: 100%;
-      background: #1a1a18;
-      border: 1px solid #2a2a28;
-      border-radius: 8px;
-      padding: 7px 14px;
-      color: #f0ede6;
-      font-size: 12px;
-      font-family: 'Cascadia Code', 'Fira Code', monospace;
-      outline: none;
-      transition: border-color .15s;
+      width: 100%; background: #1a1a18; border: 1px solid #2a2a28;
+      border-radius: 8px; padding: 7px 14px; color: #f0ede6;
+      font-size: 12px; font-family: 'Cascadia Code', 'Fira Code', monospace;
+      outline: none; transition: border-color .15s;
     }
     .search-input:focus { border-color: #1D9E75; }
     .search-results { margin-top: 8px; display: none; }
     .search-count { font-size: 11px; color: #555550; margin-bottom: 4px; }
     .search-result-item { padding: 5px 8px; border-radius: 6px; font-size: 11px; font-family: monospace; color: #c2c0b6; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .search-result-item:hover { background: #1e1e1c; color: #1D9E75; }
-
     .hotspot-item { padding: 7px 0; border-bottom: 1px solid #1a1a18; cursor: pointer; }
     .hotspot-item:hover .hotspot-name { color: #1D9E75; }
     .hotspot-name { font-size: 12px; color: #c2c0b6; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 3px; }
     .hotspot-bar-wrap { height: 3px; background: #1e1e1c; border-radius: 2px; }
     .hotspot-bar { height: 3px; border-radius: 2px; }
-
+    .cycle-item { font-size: 11px; font-family: monospace; color: #c2c0b6; margin-bottom: 6px; line-height: 1.6; word-break: break-all; }
+    .cycle-arrow { color: #e05c5c; }
     .graph-area { flex: 1; position: relative; overflow: hidden; }
     svg#graph { width: 100%; height: 100%; }
-
     .overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: #0d0d0b; }
     .overlay-title { font-size: 18px; font-weight: 500; color: #f0ede6; }
     .overlay-sub { font-size: 13px; color: #555550; text-align: center; max-width: 340px; line-height: 1.6; }
     .spinner { width: 28px; height: 28px; border: 2px solid #2a2a28; border-top-color: #1D9E75; border-radius: 50%; animation: spin .7s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .step-text { font-size: 12px; color: #1D9E75; }
-
     #tooltip {
-        position: absolute;
-        pointer-events: none;
-        background: #1a1a18;
-        border: 1px solid #2a2a28;
-        -radius: 10px;
-        padding: 10px 14px;
-        font-size: 12px;
-        color: #c2c0b6;
-        display: none;
-        z-index: 100;
-        max-width: 240px;
-        line-height: 1.6;
-        bottom: 60px;
-        left: 16px;
+      position: absolute; pointer-events: none;
+      background: #1a1a18; border: 1px solid #2a2a28;
+      border-radius: 10px; padding: 10px 14px;
+      font-size: 12px; color: #c2c0b6;
+      display: none; z-index: 100; max-width: 240px; line-height: 1.6;
+      bottom: 60px; left: 16px;
     }
     #tooltip .tt-name { font-weight: 500; color: #f0ede6; margin-bottom: 4px; font-family: monospace; font-size: 11px; word-break: break-all; }
     #tooltip .tt-risk-high { color: #e05c5c; }
     #tooltip .tt-risk-med  { color: #e09a3a; }
     #tooltip .tt-risk-low  { color: #1D9E75; }
     #tooltip .tt-lang { font-size: 10px; padding: 1px 6px; border-radius: 4px; display: inline-block; margin-top: 4px; }
-
     .graph-controls { position: absolute; bottom: 16px; right: 16px; display: flex; flex-direction: column; gap: 6px; }
     .ctrl-btn { width: 32px; height: 32px; background: #1a1a18; border: 1px solid #2a2a28; border-radius: 8px; color: #c2c0b6; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .15s; }
     .ctrl-btn:hover { border-color: #1D9E75; color: #1D9E75; }
-
     .impact-panel { position: absolute; top: 16px; right: 16px; width: 260px; background: #1a1a18; border: 1px solid #2a2a28; border-radius: 12px; padding: 14px; display: none; z-index: 50; }
     .impact-title { font-size: 12px; font-weight: 500; color: #f0ede6; margin-bottom: 10px; }
     .impact-section { margin-bottom: 10px; }
@@ -169,6 +117,11 @@
       </div>
     </div>
 
+    <div class="sidebar-section" id="cycle-section" style="display:none;border-left:3px solid #e05c5c">
+      <div class="sidebar-label" style="color:#e05c5c">Circular dependencies</div>
+      <div id="cycle-list"></div>
+    </div>
+
     <div class="sidebar-section">
       <div class="sidebar-label">Legend</div>
       <div class="legend-sub">Risk</div>
@@ -179,7 +132,10 @@
       <div class="legend-item"><div class="legend-dot" style="background:#1D9E75;opacity:.8"></div>Python</div>
       <div class="legend-item"><div class="legend-dot" style="background:#f0d060;opacity:.8"></div>JavaScript</div>
       <div class="legend-item"><div class="legend-dot" style="background:#5b9bd5;opacity:.8"></div>TypeScript</div>
-      <div class="legend-item" style="margin-top:8px">
+      <div class="legend-sub">Edges</div>
+      <div class="legend-item"><div style="width:24px;height:2px;background:#4a4a46;flex-shrink:0"></div>Import</div>
+      <div class="legend-item"><div style="width:24px;height:2px;background:#e05c5c;flex-shrink:0"></div>Circular</div>
+      <div class="legend-item" style="margin-top:4px">
         <div style="width:10px;height:10px;border-radius:50%;border:1.5px solid #888;flex-shrink:0"></div>
         Node size = churn
       </div>
@@ -371,9 +327,7 @@ function jumpToNode(nodeId) {
   if (!svgRef || !zoomBehavior) return;
   var found = null;
   if (nodeSelection) {
-    nodeSelection.each(function(d) {
-      if (d.id === nodeId) found = d;
-    });
+    nodeSelection.each(function(d) { if (d.id === nodeId) found = d; });
   }
   if (!found || found.x === undefined) return;
   var scale = 2;
@@ -402,7 +356,12 @@ function resetHighlight() {
       .attr('stroke-width', 1.5)
       .attr('stroke', function(d) { return riskColor(d.risk_score || 0); });
   }
-  if (linkSelection) linkSelection.attr('opacity', 0.5);
+  if (linkSelection) {
+    linkSelection
+      .attr('opacity', 0.5)
+      .attr('stroke', function(d) { return d._cycle ? '#e05c5c' : '#4a4a46'; })
+      .attr('stroke-width', function(d) { return d._cycle ? 2 : 1; });
+  }
 }
 
 function highlightNeighbors(d, edges) {
@@ -434,13 +393,56 @@ function unhighlightAll() {
       .attr('stroke-width', 1.5)
       .attr('stroke', function(d) { return riskColor(d.risk_score || 0); });
   }
-  if (linkSelection) linkSelection.attr('opacity', 0.5);
+  if (linkSelection) {
+    linkSelection
+      .attr('opacity', 0.5)
+      .attr('stroke', function(d) { return d._cycle ? '#e05c5c' : '#4a4a46'; })
+      .attr('stroke-width', function(d) { return d._cycle ? 2 : 1; });
+  }
+}
+
+function buildCycleEdgeSet(cycles) {
+  var s = new Set();
+  if (!cycles) return s;
+  cycles.forEach(function(cycle) {
+    var ids = cycle.ids;
+    for (var i = 0; i < ids.length; i++) {
+      s.add(ids[i] + '||' + ids[(i + 1) % ids.length]);
+    }
+  });
+  return s;
+}
+
+function renderCycles(cycles) {
+  var section = document.getElementById('cycle-section');
+  var list = document.getElementById('cycle-list');
+
+  if (!cycles || cycles.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+
+  section.style.display = 'block';
+  list.innerHTML =
+    '<div style="font-size:12px;color:#e05c5c;font-weight:500;margin-bottom:8px">' +
+      '! ' + cycles.length + ' cycle' + (cycles.length === 1 ? '' : 's') + ' detected' +
+    '</div>' +
+    cycles.slice(0, 5).map(function(c) {
+      var names = c.files.map(function(f) { return f.split(/[/\\]/).pop(); });
+      return '<div class="cycle-item">' +
+        names.join(' <span class="cycle-arrow">-&gt;</span> ') +
+        ' <span class="cycle-arrow">-&gt;</span> ' + names[0] +
+      '</div>';
+    }).join('') +
+    (cycles.length > 5 ?
+      '<div style="font-size:11px;color:#555550">+' + (cycles.length - 5) + ' more</div>' : '');
 }
 
 function renderGraph(data) {
   currentData = data;
   hideOverlay();
   updateSidebar(data);
+  renderCycles(data.cycles || []);
 
   var area = document.getElementById('graphArea');
   var W = area.clientWidth;
@@ -463,19 +465,32 @@ function renderGraph(data) {
   var nodeById = {};
   data.nodes.forEach(function(n) { nodeById[n.id] = n; });
 
+  var cycleEdgeSet = buildCycleEdgeSet(data.cycles || []);
+
   var edges = data.edges
     .filter(function(e) { return nodeById[e.source] && nodeById[e.target]; })
-    .map(function(e) { return { source: e.source, target: e.target }; });
+    .map(function(e) {
+      var sid = e.source, tid = e.target;
+      return {
+        source: sid,
+        target: tid,
+        _cycle: cycleEdgeSet.has(sid + '||' + tid)
+      };
+    });
 
-  svg.append('defs').append('marker')
-    .attr('id', 'arrow')
+  svg.append('defs').selectAll('marker')
+    .data(['normal', 'cycle'])
+    .join('marker')
+    .attr('id', function(d) { return 'arrow-' + d; })
     .attr('viewBox', '0 0 10 10')
     .attr('refX', 20).attr('refY', 5)
     .attr('markerWidth', 5).attr('markerHeight', 5)
     .attr('orient', 'auto-start-reverse')
     .append('path').attr('d', 'M2 1L8 5L2 9')
-    .attr('fill', 'none').attr('stroke', '#555')
-    .attr('stroke-width', 1.5).attr('stroke-linecap', 'round');
+    .attr('fill', 'none')
+    .attr('stroke', function(d) { return d === 'cycle' ? '#e05c5c' : '#555'; })
+    .attr('stroke-width', 1.5)
+    .attr('stroke-linecap', 'round');
 
   var g = svg.append('g');
   gRef = g;
@@ -494,10 +509,10 @@ function renderGraph(data) {
 
   var link = g.append('g').selectAll('line')
     .data(edges).join('line')
-    .attr('stroke', '#4a4a46')
-    .attr('stroke-width', 1)
+    .attr('stroke', function(d) { return d._cycle ? '#e05c5c' : '#4a4a46'; })
+    .attr('stroke-width', function(d) { return d._cycle ? 2 : 1; })
     .attr('opacity', 0.5)
-    .attr('marker-end', 'url(#arrow)');
+    .attr('marker-end', function(d) { return d._cycle ? 'url(#arrow-cycle)' : 'url(#arrow-normal)'; });
   linkSelection = link;
 
   var nodes = data.nodes.map(function(d) { return Object.assign({}, d); });
@@ -542,13 +557,13 @@ function renderGraph(data) {
     .attr('pointer-events', 'none');
 
   var tip = document.getElementById('tooltip');
-
   node
     .on('mouseover', function(ev, d) { highlightNeighbors(d, edges); })
     .on('mousemove', function(ev, d) {
       var rect = area.getBoundingClientRect();
       var inE = edges.filter(function(e) { return (e.target.id || e.target) === d.id; }).length;
       var outE = edges.filter(function(e) { return (e.source.id || e.source) === d.id; }).length;
+      var inCycle = (data.cycles || []).some(function(c) { return c.ids && c.ids.includes(d.id); });
       tip.style.display = 'block';
       tip.innerHTML =
         '<div class="tt-name">' + d.label + '</div>' +
@@ -559,6 +574,7 @@ function renderGraph(data) {
         '<div style="color:#555550;font-size:11px;margin-top:4px">' +
           outE + ' imports -&gt; ' + inE + ' imported by' +
         '</div>' +
+        (inCycle ? '<div style="color:#e05c5c;font-size:11px;margin-top:4px">! in a circular dependency</div>' : '') +
         '<div class="tt-lang" style="background:' + langBadgeBg(d.language) +
           ';color:' + langColor(d.language) + '">' + langLabel(d.language) + '</div>';
     })
@@ -589,10 +605,11 @@ function updateSidebar(data) {
     '<div class="stat-row"><span class="stat-key">Dependencies</span><span class="stat-val">' + s.total_dependencies + '</span></div>' +
     '<div class="stat-row"><span class="stat-key">Git tracked</span><span class="stat-val">' + s.total_files_tracked_by_git + '</span></div>' +
     '<div class="stat-row"><span class="stat-key">Languages</span><span class="stat-val">' + langs + '</span></div>' +
+    '<div class="stat-row"><span class="stat-key">Cycles</span><span class="stat-val" style="color:' +
+      (s.total_cycles > 0 ? '#e05c5c' : '#1D9E75') + '">' + (s.total_cycles || 0) + '</span></div>' +
     '<div class="stat-row"><span class="stat-key">Hottest file</span><span class="stat-val" style="font-family:monospace;font-size:11px;text-align:right;max-width:140px;overflow:hidden;text-overflow:ellipsis">' + (s.hottest_file || '--') + '</span></div>' +
     '<div class="stat-row"><span class="stat-key">Coupled pairs</span><span class="stat-val">' + s.coupled_pairs + '</span></div>';
 
-  // Only show hotspots for files actually in the graph
   var graphFileLabels = new Set(data.nodes.map(function(n) {
     return n.label.replace(/\\/g, '/');
   }));
@@ -608,7 +625,6 @@ function updateSidebar(data) {
       '<div style="font-size:12px;color:#555550">No git data for graph files</div>';
     return;
   }
-
   var maxC = top[0][1].changes;
   document.getElementById('hotspot-list').innerHTML = top.map(function(entry) {
     var f = entry[0], v = entry[1];

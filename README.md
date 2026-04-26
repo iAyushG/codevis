@@ -168,7 +168,7 @@ codevis/
 - [x] Impact analysis
 - [x] Interactive web UI with D3
 - [x] MCP server for Claude Desktop
-- [ ] Circular dependency detection
+- [x] Circular dependency detection
 - [ ] Shareable graph URLs
 - [ ] GitHub Action for CI integration
 - [ ] Dead code detection
