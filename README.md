@@ -123,6 +123,7 @@ timeouts. The browser polls every 800ms until the job completes.
 
 ## Project structure
 
+```
 codevis/
 ├── web.py              # FastAPI web server + background jobs
 ├── server.py           # MCP server for Claude Desktop
@@ -130,10 +131,11 @@ codevis/
 ├── static/
 │   └── index.html      # D3 force-directed graph frontend
 └── codevis/
-├── parser.py       # AST dependency parser
-├── git_miner.py    # Git churn and co-change analysis
-├── graph.py        # NetworkX graph builder (coming soon)
-└── metrics.py      # Complexity metrics (coming soon)
+    ├── parser.py       # AST dependency parser
+    ├── git_miner.py    # Git churn and co-change analysis
+    ├── graph.py        # NetworkX graph builder (coming soon)
+    └── metrics.py      # Complexity metrics (coming soon)
+```
 
 ---
 
