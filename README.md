@@ -141,7 +141,7 @@ codevis/
 
 ## Roadmap
 
-- [ ] JavaScript and TypeScript support
+- [x] JavaScript and TypeScript support
 - [ ] Shareable graph URLs
 - [ ] GitHub Action for CI integration
 - [ ] Diff view between two commits
