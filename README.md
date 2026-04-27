@@ -20,16 +20,47 @@ in conversation. Also ships a web UI, a CLI, and a GitHub Action.
 
 ## Demo
 
-*Analyzing the `requests` library — 462 files tracked, 89 dependency
-edges, hottest file: `requests/models.py` with 717 changes*
+### Python — analyzing the `requests` library
+![requests graph](docs/requests-graph.png)
 
-*Analyzing `express` — 141 files, 158 dependencies, all JavaScript*
+*36 files, 89 dependency edges, 462 git-tracked files.*
+
+### Impact analysis — what breaks if you change this file?
+![impact analysis](docs/details-demo.png)
+
+*Click any node to see what breaks if you change it. Here,
+`test_requests.py` has 6 files that break and depends on 14 files.*
+
+### JavaScript — analyzing `express`
+![express graph](docs/express-graph.png)
+
+*141 files, 158 dependencies, all JavaScript — mapped in under a second.*
+
+### Hover highlight — see connections instantly
+![hover highlight](docs/hover-demo.png)
+
+*Hover any node to dim everything unconnected. Language badge shows
+JavaScript in yellow.*
+
+### Search — jump to any file instantly
+![search](docs/search-demo.png)
+
+*Type any filename to filter the graph and jump directly to that node.*
+
+### Circular dependency detection
+![circular dependencies](docs/cycles-demo.png)
+
+*Cycle edges highlighted red automatically. Sidebar shows the full
+chain: `b.py -> c.py -> a.py -> b.py`.*
+
+---
 
 ## GitHub Action demo
 
-When installed on a repo, codevis automatically posts this comment on every PR:
+When installed on a repo, codevis automatically posts this on every PR:
 
 ![codevis PR comment](docs/action-demo.png)
+
 See a live example: [iAyushG/codevis-test](https://github.com/iAyushG/codevis-test)
 
 ---
@@ -68,7 +99,8 @@ Features:
 - Click any node for impact analysis
 - Circular dependencies highlighted with red edges
 - Search bar to find and jump to any file instantly
-- Shareable URLs — the URL updates automatically so you can paste it and anyone loads the same view
+- Shareable URLs — the URL updates automatically so you can paste
+  it and anyone loads the same view
 
 ### Option 2 — CLI (good for large repos or scripting)
 
@@ -101,9 +133,11 @@ then click Edit Config:
 Replace `C:\\path\\to\\codevis` with your actual install path, then
 restart Claude Desktop.
 
+```
 analyze the dependencies in /path/to/your/repo
 show me the hotspots in /path/to/your/repo
 list all files in /path/to/your/repo
+```
 
 ### Option 4 — GitHub Action
 
@@ -183,7 +217,6 @@ timeouts. The browser polls every 800ms until the job completes.
 ---
 
 ## Project structure
-
 ```
 codevis/
 ├── web.py              # FastAPI web server + background jobs
@@ -193,10 +226,10 @@ codevis/
 ├── static/
 │   └── index.html      # D3 force-directed graph frontend
 └── codevis/
-├── parser.py           # AST + regex dependency parser (Python, JS, TS)
-├── git_miner.py        # Git churn and co-change analysis
-├── graph.py            # NetworkX graph builder (coming soon)
-└── metrics.py          # Complexity metrics (coming soon)
+    ├── parser.py       # AST + regex dependency parser (Python, JS, TS)
+    ├── git_miner.py    # Git churn and co-change analysis
+    ├── graph.py        # NetworkX graph builder (coming soon)
+    └── metrics.py      # Complexity metrics (coming soon)
 ```
 
 ---
