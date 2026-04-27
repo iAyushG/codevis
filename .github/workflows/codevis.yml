@@ -1,0 +1,93 @@
+name: codevis — codebase analysis
+
+on:
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install codevis
+        run: |
+          pip install networkx gitpython fastapi uvicorn
+
+      - name: Clone codevis
+        run: |
+          git clone https://github.com/iAyushG/codevis.git /tmp/codevis
+
+      - name: Run analysis
+        run: |
+          cd /tmp/codevis
+          python analyze.py ${{ github.workspace }} 2>&1
+          cp analysis.json /tmp/analysis.json
+
+      - name: Check for cycles
+        id: cycles
+        run: |
+          python3 -c "
+          import json, sys
+          with open('/tmp/analysis.json') as f:
+              data = json.load(f)
+          cycles = data.get('cycles', [])
+          summary = data.get('summary', {})
+          print(f'TOTAL_FILES={summary.get(\"total_files\", 0)}')
+          print(f'TOTAL_DEPS={summary.get(\"total_dependencies\", 0)}')
+          print(f'TOTAL_CYCLES={len(cycles)}')
+          cycle_text = ''
+          for c in cycles[:5]:
+              files = c.get('files', [])
+              names = [f.split('/')[-1] for f in files]
+              cycle_text += ' -> '.join(names) + ' -> ' + names[0] + '\n'
+          print(f'CYCLE_TEXT<<EOF')
+          print(cycle_text)
+          print('EOF')
+          " >> $GITHUB_OUTPUT
+
+      - name: Post PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const files = '${{ steps.cycles.outputs.TOTAL_FILES }}';
+            const deps = '${{ steps.cycles.outputs.TOTAL_DEPS }}';
+            const cycles = parseInt('${{ steps.cycles.outputs.TOTAL_CYCLES }}');
+            const cycleText = `${{ steps.cycles.outputs.CYCLE_TEXT }}`;
+
+            const cycleSection = cycles === 0
+              ? '**No circular dependencies detected**'
+              : `**${cycles} circular dependenc${cycles === 1 ? 'y' : 'ies'} detected**\n\`\`\`\n${cycleText}\`\`\``;
+
+            const body = [
+              '## codevis analysis',
+              '',
+              '| Metric | Value |',
+              '|--------|-------|',
+              `| Files analyzed | ${files} |`,
+              `| Dependencies | ${deps} |`,
+              `| Circular dependencies | ${cycles === 0 ? '0' : '**' + cycles + ' (fix these!)**'} |`,
+              '',
+              cycleSection,
+              '',
+              '_Powered by [codevis](https://github.com/iAyushG/codevis)_'
+            ].join('\n');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });

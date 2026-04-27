@@ -232,6 +232,7 @@ var maxR = 28, minR = 6;
 async function startAnalysis() {
   var path = document.getElementById('repoPath').value.trim();
   if (!path) return;
+  window.history.pushState({}, '', '?repo=' + encodeURIComponent(path));
   showOverlay('Analyzing...', 'Starting background analysis job', true, 'Connecting...');
   try {
     var res = await fetch('/analyze?repo_path=' + encodeURIComponent(path), { method: 'POST' });
@@ -682,6 +683,16 @@ function closeImpact() { document.getElementById('impactPanel').style.display = 
 function zoomIn() { svgRef.transition().call(zoomBehavior.scaleBy, 1.4); }
 function zoomOut() { svgRef.transition().call(zoomBehavior.scaleBy, 0.7); }
 function resetView() { svgRef.transition().call(zoomBehavior.transform, d3.zoomIdentity); }
+
+// Auto-load from URL if repo param present
+(function() {
+  var params = new URLSearchParams(window.location.search);
+  var repo = params.get('repo');
+  if (repo) {
+    document.getElementById('repoPath').value = repo;
+    startAnalysis();
+  }
+})();
 </script>
 </body>
 </html>

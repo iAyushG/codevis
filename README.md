@@ -9,10 +9,12 @@ Point it at any Python or JavaScript project and get:
 - **Co-change coupling** — files that always change together
 - **Risk scores** — normalized 0 to 1 score per file based on commit frequency
 - **Impact analysis** — click any file to see what breaks if you change it
+- **Circular dependency detection** — cycle edges highlighted red instantly
 - **Language detection** — Python, JavaScript, TypeScript color coded
+- **Shareable URLs** — share a graph view with a single link
 
 Built as an MCP server so Claude can analyze your codebase directly
-in conversation. Also ships a web UI and a CLI.
+in conversation. Also ships a web UI, a CLI, and a GitHub Action.
 
 ---
 
@@ -56,21 +58,20 @@ Features:
 - Language color coded inner dot (green = Python, yellow = JS, blue = TS)
 - Node size proportional to git churn
 - Hover any node to highlight its direct connections
-- Click any node for impact analysis — what breaks if you change it
+- Click any node for impact analysis
+- Circular dependencies highlighted with red edges
 - Search bar to find and jump to any file instantly
-- Top hotspots list in the sidebar
+- Shareable URLs — the URL updates automatically so you can paste it and anyone loads the same view
 
 ### Option 2 — CLI (good for large repos or scripting)
-
-Run the full analysis and save to JSON:
 
 ```bash
 uv run python analyze.py /path/to/your/repo
 ```
 
-This produces `analysis.json` with all nodes, edges, churn scores,
-and co-change pairs. Upload that file to Claude and ask it to
-visualize the dependency graph colored by risk score.
+Produces `analysis.json` with all nodes, edges, churn scores,
+co-change pairs, and circular dependencies. Upload to Claude and
+ask it to visualize the dependency graph.
 
 ### Option 3 — MCP server (Claude Desktop)
 
@@ -93,10 +94,36 @@ then click Edit Config:
 Replace `C:\\path\\to\\codevis` with your actual install path, then
 restart Claude Desktop.
 
-Then ask Claude:
 analyze the dependencies in /path/to/your/repo
 show me the hotspots in /path/to/your/repo
 list all files in /path/to/your/repo
+
+### Option 4 — GitHub Action
+
+Add to your repo's `.github/workflows/codevis.yml`:
+
+```yaml
+name: codevis analysis
+
+on:
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: iAyushG/codevis@master
+```
+
+On every PR, codevis will post a comment with the dependency summary
+and flag any circular dependencies introduced.
 
 ---
 
@@ -134,8 +161,14 @@ appear in the same commit more than once.
 so the hottest file always scores 1.0 and everything else is relative.
 
 **Impact analysis** uses NetworkX graph traversal. Ancestors are files
-that import this file (will break if you change it), descendants are
-files this file imports.
+that import this file, descendants are files this file imports.
+
+**Circular dependency detection** uses NetworkX `simple_cycles` —
+all cycles are returned, self-loops filtered out, cycle edges rendered
+red in the graph.
+
+**Shareable URLs** — the browser URL updates with `?repo=path` on
+every analysis so you can copy and share the exact view.
 
 **Web server** runs analysis in a background thread so there are no
 timeouts. The browser polls every 800ms until the job completes.
@@ -149,13 +182,14 @@ codevis/
 ├── web.py              # FastAPI web server + background jobs
 ├── server.py           # MCP server for Claude Desktop
 ├── analyze.py          # CLI script, outputs analysis.json
+├── action.yml          # GitHub Action definition
 ├── static/
 │   └── index.html      # D3 force-directed graph frontend
 └── codevis/
-├── parser.py       # AST + regex dependency parser (Python, JS, TS)
-├── git_miner.py    # Git churn and co-change analysis
-├── graph.py        # NetworkX graph builder (coming soon)
-└── metrics.py      # Complexity metrics (coming soon)
+├── parser.py           # AST + regex dependency parser (Python, JS, TS)
+├── git_miner.py        # Git churn and co-change analysis
+├── graph.py            # NetworkX graph builder (coming soon)
+└── metrics.py          # Complexity metrics (coming soon)
 ```
 
 ---
@@ -166,12 +200,14 @@ codevis/
 - [x] JavaScript and TypeScript support
 - [x] Git churn heatmap
 - [x] Impact analysis
+- [x] Circular dependency detection
 - [x] Interactive web UI with D3
 - [x] MCP server for Claude Desktop
-- [x] Circular dependency detection
-- [ ] Shareable graph URLs
-- [ ] GitHub Action for CI integration
+- [x] GitHub Action for CI integration
+- [x] Shareable URLs
 - [ ] Dead code detection
+- [ ] Diff view between commits
+- [ ] Co-change visualization in graph
 - [ ] C++ and Java support
 
 ---

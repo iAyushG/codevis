@@ -1,0 +1,28 @@
+name: codevis
+description: Analyze codebase dependencies and detect circular imports
+author: Ayush Gupta
+
+inputs:
+  repo_path:
+    description: Path to the repository to analyze
+    required: false
+    default: '.'
+
+outputs:
+  total_files:
+    description: Total files analyzed
+  total_dependencies:
+    description: Total dependency edges found
+  total_cycles:
+    description: Number of circular dependencies found
+
+runs:
+  using: composite
+  steps:
+    - name: Install dependencies
+      shell: bash
+      run: pip install networkx gitpython
+
+    - name: Run codevis
+      shell: bash
+      run: python ${{ github.action_path }}/analyze.py ${{ inputs.repo_path }}
