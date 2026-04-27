@@ -25,6 +25,12 @@ edges, hottest file: `requests/models.py` with 717 changes*
 
 *Analyzing `express` — 141 files, 158 dependencies, all JavaScript*
 
+## GitHub Action demo
+
+When installed on a repo, codevis automatically posts this comment on every PR:
+
+![codevis PR comment](docs/action-demo.png)
+
 ---
 
 ## Installation
