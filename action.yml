@@ -1,28 +1,83 @@
 name: codevis
-description: Analyze codebase dependencies and detect circular imports
+description: Analyze codebase dependencies, detect circular imports, and post a PR comment
 author: Ayush Gupta
 
 inputs:
   repo_path:
     description: Path to the repository to analyze
     required: false
-    default: '.'
-
-outputs:
-  total_files:
-    description: Total files analyzed
-  total_dependencies:
-    description: Total dependency edges found
-  total_cycles:
-    description: Number of circular dependencies found
+    default: ${{ github.workspace }}
 
 runs:
   using: composite
   steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
     - name: Install dependencies
       shell: bash
       run: pip install networkx gitpython
 
-    - name: Run codevis
+    - name: Run codevis analysis
       shell: bash
-      run: python ${{ github.action_path }}/analyze.py ${{ inputs.repo_path }}
+      run: |
+        python ${{ github.action_path }}/analyze.py ${{ inputs.repo_path }}
+        cp analysis.json /tmp/codevis_analysis.json
+
+    - name: Parse results
+      id: results
+      shell: bash
+      run: |
+        python3 - <<'EOF'
+        import json, os
+        with open('/tmp/codevis_analysis.json') as f:
+            data = json.load(f)
+        s = data.get('summary', {})
+        cycles = data.get('cycles', [])
+        with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+            out.write(f"total_files={s.get('total_files', 0)}\n")
+            out.write(f"total_deps={s.get('total_dependencies', 0)}\n")
+            out.write(f"total_cycles={len(cycles)}\n")
+            lines = []
+            for c in cycles[:5]:
+                names = [f.split('/')[-1] for f in c.get('files', [])]
+                lines.append(' -> '.join(names) + ' -> ' + names[0])
+            out.write(f"cycle_text={'|'.join(lines)}\n")
+        EOF
+
+    - name: Post PR comment
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const files = '${{ steps.results.outputs.total_files }}';
+          const deps = '${{ steps.results.outputs.total_deps }}';
+          const cycles = parseInt('${{ steps.results.outputs.total_cycles }}' || '0');
+          const cycleLines = '${{ steps.results.outputs.cycle_text }}'.split('|').filter(Boolean);
+
+          const cycleSection = cycles === 0
+            ? '> No circular dependencies detected'
+            : `> **${cycles} circular dependenc${cycles === 1 ? 'y' : 'ies'} detected**\n` +
+              cycleLines.map(l => '> `' + l + '`').join('\n');
+
+          const body = [
+            '## codevis analysis',
+            '',
+            '| Metric | Value |',
+            '|--------|-------|',
+            `| Files analyzed | ${files} |`,
+            `| Dependencies | ${deps} |`,
+            `| Circular dependencies | ${cycles === 0 ? '0' : '**' + cycles + '**'} |`,
+            '',
+            cycleSection,
+            '',
+            '_Powered by [codevis](https://github.com/iAyushG/codevis)_'
+          ].join('\n');
+
+          await github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body
+          });
